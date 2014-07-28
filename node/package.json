@@ -1,0 +1,14 @@
+{
+  "name": "Pando",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "*",
+    "mysql2": "*",
+    "passport": "*",
+    "express": "3.4.0"
+  }
+}
