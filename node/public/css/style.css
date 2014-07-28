@@ -97,3 +97,13 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
 }
 #billboard a{color:#dadddd;}
 #billboard a:hover{color:#fff;text-decoration:none;}
+
+/* Canvas */
+#canvas{
+    position:relative;
+    background:#ffffff;
+    margin-bottom:55px;
+    min-height:500px;
+    border:1px black solid;
+    margin:3px;
+}
