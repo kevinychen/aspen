@@ -67,7 +67,6 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
 .aligncenter{text-align:center;display:block;clear:both;margin:5px auto;}
 
 /* Additional classes */
-.shadow{background:url(images/shadow.png) top center no-repeat;}
 .clear{clear:both;}
 .left{float:left;}
 .right{float:right;}

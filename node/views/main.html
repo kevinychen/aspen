@@ -33,6 +33,9 @@
                 </div>
             </div>
             <div id="canvas">
+                <% for (var i = 0; i < states.length; i++) { %>
+                <span data-id="<%= states[i].id %>"><%= states[i].path %></span>
+                <% } %>
             </div>
             <div id="content" class="clearfix shadow">
                 <h2>Pando: visualizing your entire workflow</h2>
@@ -43,4 +46,17 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            for (var i = 0; i < $('#canvas span').length; i++) {
+                function loop(index) {
+                    var obj = $('#canvas span:eq(' + index + ')');
+                    $.get('/state/' + obj.data('id'), function(res) {
+                        obj.text(res.data);
+                    });
+                }
+                loop(i);
+            }
+        });
+    </script>
 </html>

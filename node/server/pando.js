@@ -55,7 +55,7 @@ function addState(projectId, state, callback) {
         model.executeGet('insert into States (projectId, parentId) values (?, ?)',
                 [projectId, currentStateId], function(err, newStateId) {
             updateCurrentStateId(projectId, newStateId, function(err) {
-                var path = '../objects/' + newStateId;
+                var path = 'objects/' + newStateId;
                 model.execute('update States set path = ? where id = ?',
                         [path, newStateId], function(err) {});
                 fs.writeFile(path, state, 'utf8', function(err) {
@@ -64,6 +64,11 @@ function addState(projectId, state, callback) {
             });
         });
     });
+}
+
+function getStateObjs(projectId, callback) {
+    model.execute('select id, path, parentId from States where projectId = ?',
+            [projectId], callback);
 }
 
 function addProject(name, url, callback) {
@@ -104,6 +109,8 @@ function loadProject(projectId, callback) {
     });
 }
 
+exports.getState = getState;
+exports.getStateObjs = getStateObjs;
 exports.save = save;
 exports.get = get;
 exports.startProject = startProject;

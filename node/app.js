@@ -22,7 +22,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.home);
-app.get('/main', routes.main);
+app.get('/main/:projectId', routes.main);
+app.get('/state/:stateId', routes.getState);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
