@@ -5,23 +5,20 @@
  */
 
 var fs = require('fs');
+var request = require('request');
 var model = require('./model');
 
-/*
- * MFD
- * Mock service
- */
-var mockService = new Object();
-var mockStateData = 0;
-mockService.save = function(callback) {
-    mockStateData++;
-    callback(false, mockStateData);
-}
-mockService.load = function(stateData) {
-}
-
 function getService(url, callback) {
-    callback(false, mockService);
+    callback(false, {
+        save: function(callback) {
+            request.get({url: url + '/save'}, function(err, res, body) {
+                callback(err, body && body.data);
+            });
+        },
+        load: function(stateData) {
+            request.post({url: url + '/load', body: stateData});
+        }
+    });
 }
 
 function getOne(query, args, msg, callback) {
@@ -111,22 +108,4 @@ exports.save = save;
 exports.get = get;
 exports.startProject = startProject;
 exports.loadProject = loadProject;
-
-/*
- * MFD
- * Test code
- */
-startProject('test', 'service.com', function(err, projectId, stateId) {
-    save(projectId, function(err) {
-        startProject('duo', 'next.com', function(err, projectId2) {
-            save(projectId2, function() {
-                loadProject(projectId, function() {
-                    get(projectId, stateId, function() {
-                        save(projectId, function() {});
-                    });
-                });
-            });
-        });
-    });
-});
 

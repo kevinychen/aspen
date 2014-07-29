@@ -9,6 +9,7 @@
     "ejs": "*",
     "mysql2": "*",
     "passport": "*",
+    "request": "*",
     "express": "3.4.0"
   }
 }
