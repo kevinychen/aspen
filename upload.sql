@@ -20,18 +20,17 @@ create table Projects
 (
     id int not null auto_increment,
     name varchar(128) not null,
-    serviceUrl varchar(128) not null,
-    projectHash varchar(256) not null,  -- id of project according to service
+    url varchar(128) not null unique,
+    currentStateId int,
     constraint pk_id primary key (id)
 );
 
 create table States
 (
     id int not null auto_increment,
-    stateHash varchar(256) not null,  -- id of state according to service
+    path varchar(256),  -- path where entire state is stored
     projectId int not null,
-    isCurrent int,  -- true if project is currently on this state
-    parentHash varchar(256),  -- id of parent state, or null if root
+    parentId varchar(256),  -- id of parent state, or null if root
     constraint pk_id primary key (id)
 );
 

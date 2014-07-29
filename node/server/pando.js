@@ -4,6 +4,7 @@
  * Main API for navigating/modifying history trees.
  */
 
+var fs = require('fs');
 var model = require('./model');
 
 /*
@@ -11,81 +12,98 @@ var model = require('./model');
  * Mock service
  */
 var mockService = new Object();
-var mockProjectHash = 0, mockStateHash = 0;
-mockService.startProject = function(projectName, callback) {
-    mockProjectHash++; mockStateHash++;
-    callback(false, mockProjectHash, mockStateHash);
+var mockStateData = 0;
+mockService.save = function(callback) {
+    mockStateData++;
+    callback(false, mockStateData);
 }
-mockService.save = function(projectHash, callback) {
-    mockStateHash++;
-    callback(false, mockStateHash);
+mockService.load = function(stateData) {
 }
-mockService.get = function(projectHash, stateHash) {}
 
+function getService(url, callback) {
+    callback(false, mockService);
+}
 
-function getProjectHash(projectId, callback) {
-    model.execute('select projectHash from Projects where id = ?', [projectId],
-            function(err, result) {
+function getOne(query, args, msg, callback) {
+    model.execute(query, args, function(err, result) {
         if (err || result.length === 0) {
-            callback('Error: project not found.');
+            callback(msg);
         } else {
-            callback(false, result[0].projectHash);
+            callback(false, result[0]);
         }
     });
 }
 
-function updateCurrent(projectId, currentStateHash) {
-    model.execute('update States set isCurrent = IF(projectId = ?, IF(stateHash = ?, 1, 0), isCurrent)',
-            [projectId, currentStateHash], function(err) {});
-}
-
-function addState(projectId, stateHash) {
-    model.execute('select stateHash from States where projectId = ? and isCurrent = 1',
-            [projectId], function(err, result) {
-        var parentHash = result.length === 0 ? null : result[0].stateHash;
-        model.execute('insert into States (stateHash, projectId, parentHash) values (?, ?, ?)',
-                [stateHash, projectId, parentHash], function(err) {
-            updateCurrent(projectId, stateHash);
-        });
+function getCurrentStateId(projectId, callback) {
+    getOne('select currentStateId from Projects where id = ?',
+            [projectId], 'Error loading project state.', function(err, result) {
+        callback(err, result.currentStateId);
     });
 }
 
-function save(service, projectId) {
-    getProjectHash(projectId, function(err, projectHash) {
-        mockService.save(projectHash, function(err, stateHash) {
-            addState(projectId, stateHash);
-        });
+function updateCurrentStateId(projectId, currentStateId, callback) {
+    model.execute('update Projects set currentStateId = ? where id = ?',
+            [currentStateId, projectId], callback);
+}
+
+function getState(stateId, callback) {
+    getOne('select path from States where id = ?',
+            [stateId], 'Error loading project state.', function(err, result) {
+        fs.readFile(result.path, 'utf8', callback);
     });
 }
 
-function get(service, projectId, stateHash, callback) {
-    getProjectHash(projectId, function(err, projectHash) {
-        mockService.get(projectHash, stateHash);
-        updateCurrent(projectId, stateHash);
-    });
-}
-
-function startProject(serviceUrl, projectName, callback) {
-    mockService.startProject(projectName, function(err, projectHash, stateHash) {
-        model.execute('insert into Projects (name, serviceUrl, projectHash) values (?, ?, ?)',
-                [projectName, serviceUrl, projectHash], function(err) {
-            model.execute('select last_insert_id() as projectId', [], function(err, result) {
-                var projectId = result[0].projectId;
-                addState(projectId, stateHash);
-                callback(err, projectId);
+function addState(projectId, state, callback) {
+    getCurrentStateId(projectId, function(err, currentStateId) {
+        model.executeGet('insert into States (projectId, parentId) values (?, ?)',
+                [projectId, currentStateId], function(err, newStateId) {
+            updateCurrentStateId(projectId, newStateId, function(err) {
+                var path = '../objects/' + newStateId;
+                model.execute('update States set path = ? where id = ?',
+                        [path, newStateId], function(err) {});
+                fs.writeFile(path, state, 'utf8', function(err) {
+                    callback(err, newStateId);
+                });
             });
         });
     });
 }
 
-function loadProject(serviceUrl, projectId, callback) {
-    model.execute('select stateId from States where projectId = ? and isCurrent = 1',
-            function(err, stateIds) {
-        if (err || stateIds.length === 0) {
-            callback('Error: loaded project not found.');
-        } else {
-            mockService.get(projectId, stateIds[0].stateId);
-        }
+function addProject(name, url, callback) {
+    model.executeGet('insert into Projects (name, url) values (?, ?)',
+            [name, url], callback);
+}
+
+function save(projectId, callback) {
+    getService(projectId, function(err, service) {
+        service.save(function(err, state) {
+            addState(projectId, state, callback);
+        });
+    });
+}
+
+function get(projectId, stateId, callback) {
+    updateCurrentStateId(projectId, stateId, function(err) {
+        getService(projectId, function(err, service) {
+            getState(stateId, function(err, state) {
+                service.load(state);
+                callback(err);
+            });
+        });
+    });
+}
+
+function startProject(projectName, projectUrl, callback) {
+    addProject(projectName, projectUrl, function(err, projectId) {
+        save(projectId, function(err, stateId) {
+            callback(err, projectId, stateId);
+        });
+    });
+}
+
+function loadProject(projectId, callback) {
+    getCurrentStateId(projectId, function(err, stateId) {
+        get(projectId, stateId, callback);
     });
 }
 
@@ -98,11 +116,16 @@ exports.loadProject = loadProject;
  * MFD
  * Test code
  */
-startProject('service.com', 'test', function(err, projectId) {
-    save('service.com', projectId);
-    startProject('next.com', 'duo', function(err, projectId2) {
-        loadProject('service.com', projectId, function() {
-            save('service.com', projectId);
+startProject('test', 'service.com', function(err, projectId, stateId) {
+    save(projectId, function(err) {
+        startProject('duo', 'next.com', function(err, projectId2) {
+            save(projectId2, function() {
+                loadProject(projectId, function() {
+                    get(projectId, stateId, function() {
+                        save(projectId, function() {});
+                    });
+                });
+            });
         });
     });
 });
