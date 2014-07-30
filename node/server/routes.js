@@ -11,6 +11,12 @@ exports.main = function(req, res) {
     });
 }
 
+exports.getStateObjs = function(req, res) {
+    pando.getStateObjs(req.params.projectId, function(err, states) {
+        res.json({error: err, data: states});
+    });
+}
+
 exports.getState = function(req, res) {
     pando.getState(req.params.stateId, function(err, state) {
         res.json({error: err, data: state});

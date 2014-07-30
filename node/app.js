@@ -23,6 +23,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.home);
 app.get('/main/:projectId', routes.main);
+app.get('/states/:projectId', routes.getStateObjs);
 app.get('/state/:stateId', routes.getState);
 
 http.createServer(app).listen(app.get('port'), function() {
