@@ -97,13 +97,19 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
 #billboard a:hover{color:#fff;text-decoration:none;}
 
 /* Canvas */
-#canvas{
-    position:relative;
+#canvas-container {
+    overflow: hidden;
     background:#ffffff;
     margin-bottom:55px;
     min-height:500px;
     border:1px black solid;
     margin:3px;
+    cursor:move;
+}
+#canvas{
+    position:relative;
+    left:0px;
+    top:0px;
 }
 #canvas span{cursor:pointer;}
 
