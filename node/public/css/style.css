@@ -105,3 +105,5 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
     border:1px black solid;
     margin:3px;
 }
+#canvas span{cursor:pointer;}
+

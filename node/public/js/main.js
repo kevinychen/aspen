@@ -1,8 +1,14 @@
 function getState(index, id) {
-    var obj = $('#canvas span:eq(' + index + ')');
+    var obj = $('#canvas value:eq(' + index + ')');
     $.get('/state/' + id, function(res) {
         console.log(res);
         obj.text(res.data);
+    });
+}
+
+function addLoadListener(id) {
+    $('#load-' + id).on('click', function() {
+        $.post('/load', {projectId: projectId, stateId: id});
     });
 }
 
@@ -10,11 +16,18 @@ function getStateObjs() {
     $.get('/states/' + projectId, function(res) {
         var html = '';
         for (var i = 0; i < res.data.length; i++) {
-            html += '<span>' + res.data[i].path + '</span> (' + res.data[i].parentId + ')<br/>';
+            var state = res.data[i];
+            html += '<span id="load-' + state.id + '">';
+            html += 'Node ' + state.id + ': ';
+            html += '<value>' + state.path + '</value>';
+            html += '(' + state.parentId + ')<br/>';
+            html += '</span>';
         }
         $('#canvas').html(html);
         for (var i = 0; i < res.data.length; i++) {
-            getState(i, res.data[i].id);
+            var state = res.data[i];
+            getState(i, state.id);
+            addLoadListener(state.id);
         }
     });
 }

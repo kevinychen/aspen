@@ -26,6 +26,7 @@ app.get('/main/:projectId', routes.main);
 app.get('/states/:projectId', routes.getStateObjs);
 app.get('/state/:stateId', routes.getState);
 app.post('/save', routes.save);
+app.post('/load', routes.load);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

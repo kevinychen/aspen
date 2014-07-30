@@ -29,3 +29,9 @@ exports.save = function(req, res) {
     });
 }
 
+exports.load = function(req, res) {
+    pando.load(req.body.projectId, req.body.stateId, function(err) {
+        res.json({error: err});
+    });
+}
+

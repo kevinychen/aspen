@@ -88,7 +88,7 @@ function save(projectId, callback) {
     });
 }
 
-function get(projectId, stateId, callback) {
+function load(projectId, stateId, callback) {
     updateCurrentStateId(projectId, stateId, function(err) {
         getService(projectId, function(err, service) {
             getState(stateId, function(err, state) {
@@ -109,14 +109,14 @@ function startProject(projectName, projectUrl, callback) {
 
 function loadProject(projectId, callback) {
     getCurrentStateId(projectId, function(err, stateId) {
-        get(projectId, stateId, callback);
+        load(projectId, stateId, callback);
     });
 }
 
 exports.getState = getState;
 exports.getStateObjs = getStateObjs;
 exports.save = save;
-exports.get = get;
+exports.load = load;
 exports.startProject = startProject;
 exports.loadProject = loadProject;
 
