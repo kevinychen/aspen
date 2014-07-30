@@ -50,8 +50,8 @@
         $(document).ready(function() {
             projectId = <%= projectId %>;
             google.setOnLoadCallback(function() {
-                getStateObjs();
                 addListeners();
+                getStateObjs();
             });
         });
     </script>

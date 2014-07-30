@@ -20,9 +20,8 @@ function getStateObjs() {
         for (var i = 0; i < res.data.length; i++) {
             var state = res.data[i];
             var html = '<span id="load-' + state.id + '">';
-            html += 'Node ' + state.id + ': ';
-            html += '<span id="value-' + state.path + '"></span>';
-            html += '(' + state.parentId + ') <br/>';
+            html += state.id + ': ';
+            html += '<span id="value-' + state.id + '">' + state.path + '</span>';
             html += '</span>';
             var parentId = state.parentId ? state.parentId.toString() : '';
             data.addRow([{v: state.id.toString(), f: html}, state.parentId]);
@@ -39,7 +38,7 @@ function getStateObjs() {
 
 function addListeners() {
     $('#nav-save').on('click', function() {
-        $.post('/save', {projectId: projectId}, getStateObjs);
+        $.post('/requestSave', {projectId: projectId});
     });
 }
 

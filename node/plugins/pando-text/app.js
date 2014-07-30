@@ -1,29 +1,42 @@
+// $ node app 8091 1 http://localhost:8080/ pando.txt
+
+var express = require('express');
 var http = require('http');
-var url = require('url');
-var model = require('./model');
+var request = require('request');
+var Model = require('./Model').Model;
 
-function onRequest(req, res) {
-    var pathname = url.parse(req.url).pathname;
-    if (req.method === 'GET' && pathname === '/save') {
-        model.getState(function(err, data) {
-            res.writeHead(200, {"Content-Type": "text/plain"});
-            res.write(data);
-            res.end();
+var port = process.argv[2] || '8080';
+var projectId = process.argv[3];
+var masterUrl = process.argv[4] || 'http://localhost:8080/';
+
+var master = {
+    save: function(data) {
+        request.post({
+            url: masterUrl + 'save',
+            json: {projectId: projectId, state: data}
         });
-    } else if (req.method === 'POST' && pathname === '/load') {
-        var body = '';
-        req.on('data', function (data) {
-            body += data;
-        });
-        req.on('end', function () {
-            model.loadState(body, function(err) {
-                res.end();
-            });
-        });
-    } else {
-        res.end();
+    },
+    load: function(stateId, callback) {
+        request.post({
+            url: masterUrl + 'load',
+            json: {projectId: projectId, stateId: stateId}
+        }, callback);
     }
-}
+};
+var model = new Model(master, process.argv.slice(5));
 
-http.createServer(onRequest).listen(process.argv[2]);
+var app = express();
+app.use(express.logger('dev'));
+
+app.post('/save', function(req, res) {
+    model.save();
+    res.end();
+});
+app.post('/load', function(req, res) {
+    model.load(req.body, function(err) {
+        res.end();
+    });
+});
+
+http.createServer(app).listen(port);
 

@@ -24,9 +24,7 @@ function getService(projectId, callback) {
         var url = result.url + '/';
         callback(false, {
             save: function(callback) {
-                request.get({url: url + 'save'}, function(err, res, data) {
-                    callback(err, data);
-                });
+                request.post({url: url + 'save'});
             },
             load: function(stateData) {
                 request.post({url: url + 'load', body: stateData});
@@ -80,12 +78,14 @@ function addProject(name, url, callback) {
             [name, url], callback);
 }
 
-function save(projectId, callback) {
+function requestSave(projectId, callback) {
     getService(projectId, function(err, service) {
-        service.save(function(err, state) {
-            addState(projectId, state, callback);
-        });
+        service.save(callback);
     });
+}
+
+function save(projectId, state, callback) {
+    addState(projectId, state, callback);
 }
 
 function load(projectId, stateId, callback) {
@@ -115,6 +115,7 @@ function loadProject(projectId, callback) {
 
 exports.getState = getState;
 exports.getStateObjs = getStateObjs;
+exports.requestSave = requestSave;
 exports.save = save;
 exports.load = load;
 exports.startProject = startProject;

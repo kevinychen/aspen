@@ -1,5 +1,0 @@
-{
-  "name": "PandoText",
-  "port": "8091",
-  "start": "node app.js"
-}

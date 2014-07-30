@@ -1,21 +1,24 @@
-const FILE = 'pando.txt';
-
 var fs = require('fs');
-fs.writeFileSync(FILE, '', 'utf8');
 
-/*
- * Returns data that represents the current state.
- * callback(error, data)
- */
-exports.getState = function(callback) {
-    fs.readFile(FILE, 'utf8', callback);
+function Model(master, args) {
+    this.master = master;
+    this.file = args[0];
+    var me = this;
+    fs.watchFile(this.file, function() {
+        me.save();
+    });
 }
 
-/*
- * Loads the state represented by data.
- * callback(error)
- */
-exports.loadState = function(data, callback) {
-    fs.writeFile(FILE, data, 'utf8', callback);
+Model.prototype.save = function() {
+    var me = this;
+    fs.readFile(this.file, 'utf8', function(err, data) {
+        me.master.save(data);
+    });
 }
+
+Model.prototype.load = function(data, callback) {
+    fs.writeFile(this.file, data, 'utf8', callback);
+}
+
+module.exports.Model = Model;
 
