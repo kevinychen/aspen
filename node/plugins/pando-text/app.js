@@ -26,6 +26,7 @@ var master = {
 var model = new Model(master, process.argv.slice(5));
 
 var app = express();
+app.use(express.bodyParser());
 app.use(express.logger('dev'));
 
 app.post('/save', function(req, res) {
@@ -33,7 +34,7 @@ app.post('/save', function(req, res) {
     res.end();
 });
 app.post('/load', function(req, res) {
-    model.load(req.body, function(err) {
+    model.load(req.body.state, function(err) {
         res.end();
     });
 });

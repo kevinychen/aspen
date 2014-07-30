@@ -10,6 +10,7 @@
     "mysql2": "*",
     "passport": "*",
     "request": "*",
+    "socket.io": "*",
     "express": "3.4.0"
   }
 }

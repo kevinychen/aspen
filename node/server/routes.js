@@ -1,4 +1,15 @@
 var pando = require('./pando');
+var socketio = require('./socketio');
+
+function refreshProject(projectId) {
+    pando.getStateObjs(projectId, function(err, states) {
+        socketio.broadcastTo(projectId, 'tree', states);
+    });
+}
+
+exports.setServer = function(server) {
+    socketio.setServer(server, refreshProject);
+}
 
 exports.home = function(req, res) {
     res.render('index.html');
@@ -8,12 +19,6 @@ exports.main = function(req, res) {
     var projectId = req.params.projectId;
     pando.getStateObjs(projectId, function(err, states) {
         res.render('main.html', {projectId: projectId, states: states});
-    });
-}
-
-exports.getStateObjs = function(req, res) {
-    pando.getStateObjs(req.params.projectId, function(err, states) {
-        res.json({error: err, data: states});
     });
 }
 
@@ -30,7 +35,9 @@ exports.requestSave = function(req, res) {
 }
 
 exports.save = function(req, res) {
-    pando.save(req.body.projectId, req.body.state, function(err, stateId) {
+    var projectId = req.body.projectId;
+    pando.save(projectId, req.body.state, function(err, stateId) {
+        refreshProject(projectId);
         res.json({error: err, stateId: stateId});
     });
 }

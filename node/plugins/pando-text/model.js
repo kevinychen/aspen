@@ -3,9 +3,14 @@ var fs = require('fs');
 function Model(master, args) {
     this.master = master;
     this.file = args[0];
+    this.current = '';
     var me = this;
     fs.watchFile(this.file, function() {
-        me.save();
+        fs.readFile(me.file, 'utf8', function(err, data) {
+            if (data !== me.current) {
+                me.master.save(data);
+            }
+        });
     });
 }
 
@@ -17,6 +22,7 @@ Model.prototype.save = function() {
 }
 
 Model.prototype.load = function(data, callback) {
+    this.current = data;
     fs.writeFile(this.file, data, 'utf8', callback);
 }
 

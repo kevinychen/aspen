@@ -27,7 +27,7 @@ function getService(projectId, callback) {
                 request.post({url: url + 'save'});
             },
             load: function(stateData) {
-                request.post({url: url + 'load', body: stateData});
+                request.post({url: url + 'load', json: {state: stateData}});
             }
         });
     });

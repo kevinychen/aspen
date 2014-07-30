@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
         <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
         <title>Pando</title>
     </head>
@@ -51,7 +52,6 @@
             projectId = <%= projectId %>;
             google.setOnLoadCallback(function() {
                 addListeners();
-                getStateObjs();
             });
         });
     </script>
