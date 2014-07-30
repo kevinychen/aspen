@@ -8,6 +8,7 @@
         <link href='http://fonts.googleapis.com/css?family=Lato|Gentium+Basic' rel='stylesheet' type='text/css' />
         <link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
         <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript" src="/js/main.js"></script>
         <title>Pando</title>
     </head>
@@ -45,10 +46,13 @@
         </div>
     </body>
     <script type="text/javascript">
+        google.load('visualization', '1', {packages:['orgchart']});
         $(document).ready(function() {
             projectId = <%= projectId %>;
-            getStateObjs();
-            addListeners();
+            google.setOnLoadCallback(function() {
+                getStateObjs();
+                addListeners();
+            });
         });
     </script>
 </html>
