@@ -23,3 +23,9 @@ exports.getState = function(req, res) {
     });
 }
 
+exports.save = function(req, res) {
+    pando.save(req.body.projectId, function(err, stateId) {
+        res.json({error: err, stateId: stateId});
+    });
+}
+

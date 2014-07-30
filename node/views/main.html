@@ -26,10 +26,10 @@
                 </div>
                 <div id="nav" class="clearfix">
                     <ul>
-                        <li><a href="#">Save</a></li>
-                        <li><a href="#">Select</a></li>
-                        <li><a href="#">Copy</a></li>
-                        <li><a href="#">Apply</a></li>
+                        <li><span id="nav-save">Save</span></li>
+                        <li><span>Select</span></li>
+                        <li><span>Copy</span></li>
+                        <li><span>Apply</span></li>
                     </ul>
                 </div>
             </div>
@@ -51,6 +51,7 @@
         $(document).ready(function() {
             projectId = <%= projectId %>;
             getStateObjs();
+            addListeners();
         });
     </script>
 </html>

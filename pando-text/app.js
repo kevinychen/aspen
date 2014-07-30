@@ -6,8 +6,9 @@ function onRequest(req, res) {
     var pathname = url.parse(req.url).pathname;
     if (req.method === 'GET' && pathname === '/save') {
         model.getState(function(err, data) {
-            res.writeHead(200, {"Content-Type": "application/json"});
-            res.end(JSON.stringify({error: err, data: data}));
+            res.writeHead(200, {"Content-Type": "text/plain"});
+            res.write(data);
+            res.end();
         });
     } else if (req.method === 'POST' && pathname === '/load') {
         var body = '';
@@ -16,8 +17,7 @@ function onRequest(req, res) {
         });
         req.on('end', function () {
             model.loadState(body, function(err) {
-                res.writeHead(200, {"Content-Type": "application/json"});
-                res.end(JSON.stringify({error: err}));
+                res.end();
             });
         });
     } else {

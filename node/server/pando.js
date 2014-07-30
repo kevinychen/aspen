@@ -8,19 +8,6 @@ var fs = require('fs');
 var request = require('request');
 var model = require('./model');
 
-function getService(url, callback) {
-    callback(false, {
-        save: function(callback) {
-            request.get({url: url + '/save'}, function(err, res, body) {
-                callback(err, body && body.data);
-            });
-        },
-        load: function(stateData) {
-            request.post({url: url + '/load', body: stateData});
-        }
-    });
-}
-
 function getOne(query, args, msg, callback) {
     model.execute(query, args, function(err, result) {
         if (err || result.length === 0) {
@@ -28,6 +15,23 @@ function getOne(query, args, msg, callback) {
         } else {
             callback(false, result[0]);
         }
+    });
+}
+
+function getService(projectId, callback) {
+    getOne('select url from Projects where id = ?',
+            [projectId], 'Error: project not found.', function(err, result) {
+        var url = result.url + '/';
+        callback(false, {
+            save: function(callback) {
+                request.get({url: url + 'save'}, function(err, res, data) {
+                    callback(err, data);
+                });
+            },
+            load: function(stateData) {
+                request.post({url: url + 'load', body: stateData});
+            }
+        });
     });
 }
 

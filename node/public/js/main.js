@@ -19,3 +19,9 @@ function getStateObjs() {
     });
 }
 
+function addListeners() {
+    $('#nav-save').on('click', function() {
+        $.post('/save', {projectId: projectId}, getStateObjs);
+    });
+}
+

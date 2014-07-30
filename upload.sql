@@ -25,6 +25,9 @@ create table Projects
     constraint pk_id primary key (id)
 );
 
+insert into Projects (name, url)
+    values ('proj1', 'http://localhost:8091');
+
 create table States
 (
     id int not null auto_increment,
