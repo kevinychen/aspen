@@ -25,5 +25,5 @@ function onRequest(req, res) {
     }
 }
 
-http.createServer(onRequest).listen(8091);
+http.createServer(onRequest).listen(process.argv[2]);
 
