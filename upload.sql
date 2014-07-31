@@ -26,7 +26,7 @@ create table Projects
 );
 
 insert into Projects (name, url)
-    values ('proj1', 'http://localhost:8091');
+    values ('proj1', 'http://localhost:8092');
 
 create table States
 (
