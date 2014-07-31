@@ -14,7 +14,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(__dirname + '/public'));
-app.use(express.session({ secret: 'PANDO' }));
+app.use(express.session({ secret: 'ASPEN' }));
 
 // development only
 if ('development' == app.get('env')) {

@@ -1,6 +1,6 @@
 -- mysql -h localhost < [this file]
 
-use pando;
+use aspen;
 drop table if exists Users;
 drop table if exists Projects;
 drop table if exists States;

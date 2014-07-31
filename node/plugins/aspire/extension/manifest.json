@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "Chrando",
-    "description": "Chrome extension to interface with Pando.",
+    "name": "Aspire",
+    "description": "Chrome extension to interface with Aspen.",
     "version": "1.0",
-    "background": {"page": "chrando.html"},
+    "background": {"page": "aspire.html"},
     "permissions": ["history", "tabs", "http://localhost:8092/*"],
     "content_security_policy": "script-src 'self' http://localhost:8092; object-src 'self'"
 }

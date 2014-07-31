@@ -1,5 +1,5 @@
 /**
- * pando.js
+ * aspen.js
  *
  * Main API for navigating/modifying history trees.
  */

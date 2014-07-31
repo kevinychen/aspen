@@ -1,13 +1,14 @@
 {
-  "name": "PandoText",
+  "name": "Aspire",
   "version": "0.0.1",
   "private": true,
-  "port": "8091",
+  "port": "8092",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
     "request": "*",
+    "socket.io": "*",
     "express": "3.4.0"
   }
 }

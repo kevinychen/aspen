@@ -4,7 +4,7 @@
 
 var mysql = require('mysql2');
 
-var db_url = 'mysql://localhost:3306/pando?user=kchen'
+var db_url = 'mysql://localhost:3306/aspen?user=kchen'
 var pool = mysql.createPool(db_url);
 
 function execute(query, args, callback) {
