@@ -1,0 +1,8 @@
+{
+    "manifest_version": 2,
+    "name": "Chrando",
+    "description": "Chrome extension to interface with Pando.",
+    "version": "1.0",
+    "background": {"page": "chrando.html"},
+    "permissions": ["history"]
+}
