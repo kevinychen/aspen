@@ -78,6 +78,15 @@ function addProject(name, url, callback) {
             [name, url], callback);
 }
 
+function getProject(projectId, callback) {
+    getOne('select id, name from Projects where id = ?',
+            [projectId], 'Error: project not found.', callback);
+}
+
+function getProjects(callback) {
+    model.execute('select id, name from Projects', [], callback);
+}
+
 function requestSave(projectId, callback) {
     getService(projectId, function(err, service) {
         service.save(callback);
@@ -115,6 +124,8 @@ function loadProject(projectId, callback) {
 
 exports.getState = getState;
 exports.getStateObjs = getStateObjs;
+exports.getProject = getProject;
+exports.getProjects = getProjects;
 exports.requestSave = requestSave;
 exports.save = save;
 exports.load = load;

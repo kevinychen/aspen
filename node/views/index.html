@@ -8,12 +8,14 @@
         <link href='http://fonts.googleapis.com/css?family=Lato|Gentium+Basic' rel='stylesheet' type='text/css' />
         <link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
         <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="/js/index.js"></script>
         <title>Aspen</title>
     </head>
     <body>
         <div id="wrapper960" class="clearfix">
             <div id="toplinks">
                 <ul class="toplinks_links">
+                    <li id="hometitle"><a href="/">Aspen</a></li>
                     <li><a href="#">Login</a></li>
                     <li><a href="#">Register</a></li>
                     <li><a href="#">About Aspen</a></li>
@@ -24,9 +26,11 @@
             </div>
             <div id="billboard">
                 <img src="/img/aspen.jpg" alt="" />
-                <ul class="billboard_links">
+                <ul id="billboard_links">
                     <li><a href="#">New Project</a></li>
-                    <li><a href="/main/1">Load Project</a></li>
+                    <li><a href="#" id="load_project">Load Project</a></li>
+                </ul>
+                <ul id="billboard_options">
                 </ul>
             </div>
             <div id="content" class="clearfix shadow">
@@ -38,4 +42,9 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            addListeners();
+        });
+    </script>
 </html>

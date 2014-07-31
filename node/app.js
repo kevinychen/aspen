@@ -23,6 +23,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.home);
 app.get('/main/:projectId', routes.main);
+app.get('/projects', routes.projects);
 app.get('/state/:stateId', routes.getState);
 app.post('/requestSave', routes.requestSave);
 app.post('/save', routes.save);

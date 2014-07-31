@@ -17,8 +17,14 @@ exports.home = function(req, res) {
 
 exports.main = function(req, res) {
     var projectId = req.params.projectId;
-    aspen.getStateObjs(projectId, function(err, states) {
-        res.render('main.html', {projectId: projectId, states: states});
+    aspen.getProject(projectId, function(err, result) {
+        res.render('main.html', {projectId: projectId, name: result.name});
+    });
+}
+
+exports.projects = function(req, res) {
+    aspen.getProjects(function(err, projects) {
+        res.json({error: err, projects: projects});
     });
 }
 

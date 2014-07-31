@@ -33,11 +33,12 @@ p,ul{margin:0 0 20px 0;}
 #content a{color:#fff;text-decoration:underline;}
 
 /* Top links menu */
-#toplinks{padding:0 30px;}
+#toplinks{padding-left:15px;padding-right:30px;}
 #toplinks ul{list-style:none;margin:0;text-align:right;}
 #toplinks ul li{display:inline-block;font-size:12px;margin:10px 0 8px 15px;}
 #toplinks ul li a{color:#dadddd;}
 #toplinks ul li a:hover{color:#fff;text-decoration:none;}
+#hometitle{float:left;}
 
 /* Forest background */
 #toplinks, #content, #footer{background:none;background-color:#35371c;}
@@ -91,10 +92,23 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
     font-size:24px;
     text-align:center;
     padding:10px;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
-#billboard a{color:#dadddd;}
+#billboard ul mini{
+    display:block;
+    background-color:#45472c;
+    border:black 1px solid;
+    border-radius:4px;
+    font-size:12px;
+    text-align:center;
+    cursor:pointer;
+    max-width:100px;
+    margin:0 auto;
+    text-color:white;
+}
+#billboard a{color:#dadddd;cursor:pointer;}
 #billboard a:hover{color:#fff;text-decoration:none;}
+#billboard_options{display:none;}
 
 /* Canvas */
 #canvas-container {

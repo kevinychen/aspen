@@ -26,7 +26,11 @@ create table Projects
 );
 
 insert into Projects (name, url)
-    values ('proj1', 'http://localhost:8092');
+    values ('Aspen Text', 'http://localhost:8091');
+insert into Projects (name, url)
+    values ('Aspire', 'http://localhost:8092');
+insert into Projects (name, url)
+    values ('Aspen Excel', 'http://localhost:8093');
 
 create table States
 (
