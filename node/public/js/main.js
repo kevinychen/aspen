@@ -58,11 +58,30 @@ function addMoveListeners() {
     });
 }
 
+function addMaximizeListener() {
+    $('#toggle-maximize').on('click', function() {
+        if ($('#canvas-wrapper').hasClass('overlay')) {
+            var element = $('#canvas-wrapper').detach();
+            $('#canvas-parent').append(element);
+            $('#canvas-container').css('max-height', '600px');
+            $('#canvas-wrapper').removeClass('overlay');
+            $('#toggle-maximize').text('+');
+        } else {
+            var element = $('#canvas-wrapper').detach();
+            $('body').append(element);
+            $('#canvas-container').css('max-height', '100%');
+            $('#canvas-wrapper').addClass('overlay');
+            $('#toggle-maximize').text('-');
+        }
+    });
+}
+
 function addListeners() {
     $('#nav-save').on('click', function() {
         $.post('/requestSave', {projectId: projectId});
     });
     addMoveListeners();
+    addMaximizeListener();
     socket.emit('projectId', projectId);
     socket.on('tree', function(data) {
         drawTree(data);
