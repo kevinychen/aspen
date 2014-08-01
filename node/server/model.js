@@ -18,11 +18,9 @@ function execute(query, args, callback) {
 
 function executeGet(query, args, callback) {
     pool.getConnection(function(err, connection) {
-        connection.query(query, args, function(err) {
-            connection.query('select last_insert_id() as id', [], function(err, result) {
-                connection.release();
-                callback(err, result[0].id);
-            });
+        connection.query(query, args, function(err, info) {
+            connection.release();
+            callback(err, info.insertId);
         });
     });
 }

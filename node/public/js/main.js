@@ -19,19 +19,29 @@ function drawTree(states) {
     data.addColumn('string', 'Parent');
     for (var i = 0; i < states.length; i++) {
         var state = states[i];
-        var html = '<span id="load-' + state.id + '">';
-        html += state.id + ': ';
-        html += '<span id="value-' + state.id + '">' + state.path + '</span>';
-        html += '<br/>(' + state.timestamp + ')';
+        var html = '<div id="load-' + state.id + '">';
+        html += '<div class="preview">';
         if (state.icon) {
             html += '<br/><img src="' + state.icon + '" />';
         }
-        html += '</span>';
+        if (state.name) {
+            html += '<br/>' + state.name.substring(0, 16);
+        }
+        html += '</div>';
+        html += '<div class="info">';
+        html += state.id + ': ';
+        if (state.name) {
+            html += state.name + '<br/>';
+        }
+        html += '<span id="value-' + state.id + '">' + state.path + '</span>';
+        html += '<br/>(' + new Date(state.timestamp).toLocaleTimeString() + ')';
+        html += '</div>';
+        html += '</div>';
         var parentId = state.parentId ? state.parentId.toString() : '';
         data.addRow([{v: state.id.toString(), f: html}, state.parentId]);
     }
     var chart = new google.visualization.OrgChart(document.getElementById('canvas'));
-    chart.draw(data, {allowHtml:true, nodeClass:'treenode'});
+    chart.draw(data, {allowHtml:true, nodeClass:'treenode', size:'small'});
     for (var i = 0; i < states.length; i++) {
         var state = states[i];
         getState(state.id);

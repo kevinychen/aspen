@@ -38,6 +38,7 @@ create table States
     path varchar(256),  -- path where entire state is stored
     projectId int not null,
     parentId varchar(256),  -- id of parent state, or null if root
+    name varchar(256),  -- short name of state
     icon varchar(256),  -- path of icon
     timestamp timestamp,
     constraint pk_id primary key (id)

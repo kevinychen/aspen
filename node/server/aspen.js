@@ -52,10 +52,11 @@ function getState(stateId, callback) {
     });
 }
 
-function addState(projectId, state, icon, callback) {
+function addState(projectId, state, name, icon, callback) {
     getCurrentStateId(projectId, function(err, currentStateId) {
-        model.executeGet('insert into States (projectId, parentId, icon) '
-                + 'values (?, ?, ?)', [projectId, currentStateId, icon],
+        model.executeGet('insert into States (projectId, parentId, name, icon) '
+                + 'values (?, ?, ?, ?)',
+                [projectId, currentStateId, name, icon],
                 function(err, newStateId) {
             updateCurrentStateId(projectId, newStateId, function(err) {
                 var path = 'objects/' + newStateId;
@@ -70,7 +71,7 @@ function addState(projectId, state, icon, callback) {
 }
 
 function getStateObjs(projectId, callback) {
-    model.execute('select id, path, parentId, icon, timestamp '
+    model.execute('select id, path, parentId, name, icon, timestamp '
             + 'from States where projectId = ?', [projectId], callback);
 }
 
@@ -94,8 +95,8 @@ function requestSave(projectId, callback) {
     });
 }
 
-function save(projectId, state, icon, callback) {
-    addState(projectId, state, icon, callback);
+function save(projectId, state, name, icon, callback) {
+    addState(projectId, state, name, icon, callback);
 }
 
 function load(projectId, stateId, callback) {

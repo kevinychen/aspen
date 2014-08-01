@@ -143,13 +143,25 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
     position:relative;
     left:0px;
     top:0px;
+    font-size:18px;
 }
 #canvas span{cursor:pointer;}
 .treenode {
-    max-width:150px;
-    background-color:#dddddd;
     border:1px black solid;
     border-radius:4px;
+    box-shadow:#111 0 0 10px;
     word-wrap:break-word;
+    position:relative;
 }
+.treenode .info {
+    display:none;
+    background-color:#eeeeee;
+    border:1px black solid;
+    border-radius:4px;
+    box-shadow:#111 0 0 10px;
+    z-index:1000;
+    position:relative;
+    left:10px;
+}
+.treenode:hover .info {display:inline;position:absolute;}
 

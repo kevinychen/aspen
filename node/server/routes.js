@@ -46,7 +46,8 @@ exports.requestSave = function(req, res) {
 
 exports.save = function(req, res) {
     var projectId = req.body.projectId;
-    aspen.save(projectId, req.body.state, req.body.icon, function(err, stateId) {
+    aspen.save(projectId, req.body.state, req.body.name, req.body.icon,
+            function(err, stateId) {
         refreshProject(projectId);
         res.json({error: err, stateId: stateId});
     });
