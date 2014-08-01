@@ -27,6 +27,9 @@ function drawTree(states) {
         if (state.name) {
             html += '<br/>' + state.name.substring(0, 16);
         }
+        if (!state.icon && !state.name) {
+            html += new Date(state.timestamp).toLocaleTimeString();
+        }
         html += '</div>';
         html += '<div class="info">';
         html += state.id + ': ';
