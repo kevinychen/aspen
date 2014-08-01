@@ -126,4 +126,11 @@ img.alignleft,img.aligncenter,img.alignright{background:#fff;padding:4px;margin-
     top:0px;
 }
 #canvas span{cursor:pointer;}
+.treenode {
+    max-width:150px;
+    background-color:#dddddd;
+    border:1px black solid;
+    border-radius:4px;
+    word-wrap:break-word;
+}
 

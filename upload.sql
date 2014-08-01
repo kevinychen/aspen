@@ -38,6 +38,11 @@ create table States
     path varchar(256),  -- path where entire state is stored
     projectId int not null,
     parentId varchar(256),  -- id of parent state, or null if root
+    icon varchar(256),  -- path of icon
+    timestamp timestamp,
     constraint pk_id primary key (id)
 );
+
+insert into States (path, projectId)
+    values ('objects/something', -1);
 

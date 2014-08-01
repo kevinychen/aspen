@@ -18,7 +18,11 @@ exports.home = function(req, res) {
 exports.main = function(req, res) {
     var projectId = req.params.projectId;
     aspen.getProject(projectId, function(err, result) {
-        res.render('main.html', {projectId: projectId, name: result.name});
+        if (err) {
+            res.end();
+        } else {
+            res.render('main.html', {projectId: projectId, name: result.name});
+        }
     });
 }
 
@@ -42,7 +46,7 @@ exports.requestSave = function(req, res) {
 
 exports.save = function(req, res) {
     var projectId = req.body.projectId;
-    aspen.save(projectId, req.body.state, function(err, stateId) {
+    aspen.save(projectId, req.body.state, req.body.icon, function(err, stateId) {
         refreshProject(projectId);
         res.json({error: err, stateId: stateId});
     });

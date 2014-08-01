@@ -2,12 +2,13 @@ function Model(master, args) {
     this.master = master;
 }
 
-Model.prototype.setServer = function(server) {
+Model.prototype.setServer = function(server, projectId) {
     var thisio = require('socket.io').listen(server);
     var me = this;
 
     thisio.on('connection', function(socket) {
         me.socket = socket;
+        socket.emit('projectId', projectId);
         socket.on('disconnect', function() {
             me.socket = undefined;
         });

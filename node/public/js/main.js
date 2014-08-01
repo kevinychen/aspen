@@ -22,12 +22,16 @@ function drawTree(states) {
         var html = '<span id="load-' + state.id + '">';
         html += state.id + ': ';
         html += '<span id="value-' + state.id + '">' + state.path + '</span>';
+        html += '<br/>(' + state.timestamp + ')';
+        if (state.icon) {
+            html += '<br/><img src="' + state.icon + '" />';
+        }
         html += '</span>';
         var parentId = state.parentId ? state.parentId.toString() : '';
         data.addRow([{v: state.id.toString(), f: html}, state.parentId]);
     }
     var chart = new google.visualization.OrgChart(document.getElementById('canvas'));
-    chart.draw(data, {allowHtml:true});
+    chart.draw(data, {allowHtml:true, nodeClass:'treenode'});
     for (var i = 0; i < states.length; i++) {
         var state = states[i];
         getState(state.id);
